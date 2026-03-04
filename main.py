@@ -3,6 +3,10 @@ import matplotlib.pyplot as plt
 from keras.datasets import mnist
 from keras.utils import to_categorical
 
+from keras.models import Sequential
+from keras.layers import Dense, Dropout
+from keras.callbacks import EarlyStopping
+
 # подгрузка данных
 (data_train, target_train), (data_test, target_test) = mnist.load_data()
 
@@ -78,3 +82,14 @@ print(f'Finished preprocessing\n'
       f'data_test_flat: {data_test_flat.shape}\n'
       f'target_train_cat: {target_train_cat.shape}\n'
       f'target_test_cat: {target_test_cat.shape}\n')
+
+# Создание модели
+
+model = Sequential([
+    Dense(512, activation = 'relu', input_shape = (784, )),
+    Dropout(0.2), # отключение 20% нейронов для избежания переобучения (подать на выход нейрона значение 0)
+    Dense(256, activation = 'relu'),
+    Dropout(0.2),
+    Dense(10, activation = 'softmax')
+
+])
