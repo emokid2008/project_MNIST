@@ -7,6 +7,9 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout
 from keras.callbacks import EarlyStopping
 
+from sklearn.metrics import classification_report, confusion_matrix
+import seaborn as sns
+
 # подгрузка данных
 (data_train, target_train), (data_test, target_test) = mnist.load_data()
 
@@ -153,3 +156,35 @@ ax2.grid(True, alpha = 0.3)
 
 plt.tight_layout()
 plt.savefig('2_model_fit.png', dpi = 150, bbox_inches = 'tight')
+
+# 4. Анализ предсказаний 
+  # Виды ошибок
+      # 1. True Positive (TP) - истинно положительный
+      # Истина: 1, Предсказано: 1 (предсказано 5, реально тоже 5)
+
+      # 2. True Negative (TN) - истинно отрицательный
+      # Истина: 0, Предсказанно: 0 (предсказано 5, но реально не 5)
+      
+      # 3. False Positive (FP) - ложно положительный
+      # Истина: 0, Предсказано: 1 (реально 5, но предсказано не 5)
+      
+      # 4. False Negative (FN) - ложно отрицательный
+      # Истина: 1, Предсказано: 0 (реально не 5 и предсказано не 5)
+
+# 1. Classification Report - детальная статистика по всем классам
+# Критерии отчета:
+      # 1. Precision (точность) - TP / (TP + FP)
+      # Из всех предсказанных чисел "5", сколько реально было '5'?
+
+      # 2. Recall (полнота) - TP / (TP + FN)
+      # Из всех настоящих чисел "5",  сколько нашла модель?
+
+      # 3. F1-Score (гармоническое среднее) - 2 * (Precision * Recall) / (Precision + Recall)
+      # Среднее значение между Precision и Recall
+
+      # 4. Support - сколько примеров класса было в тестах
+
+# 2. Confusion Matrix - таблица ошибок
+# Матрица предсказанных классов относительно верных классов 
+# Идеальный вариант -  ненулевая диагональ, остальные поля = 0
+ 
