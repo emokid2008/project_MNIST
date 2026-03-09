@@ -188,3 +188,7 @@ plt.savefig('2_model_fit.png', dpi = 150, bbox_inches = 'tight')
 # Матрица предсказанных классов относительно верных классов 
 # Идеальный вариант -  ненулевая диагональ, остальные поля = 0
  
+# Predictions (предсказания)
+predictions = model.predict(data_test_flat)
+predicted_classes = np.argmax(predictions, axis = 1)
+true_target_classes = data_test
