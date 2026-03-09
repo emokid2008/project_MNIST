@@ -218,3 +218,21 @@ errors.sort(key = lambda x: x[2], reverse = True)
 
 for true, pred, errors in errors[:10]:
     print(f'{true} -> {pred}: {errors} раз')
+
+# Визуализация Confusion Matrix
+fig, graph = plt.subplots(figsize = (10, 8))
+sns.heatmap(conf_matrix, # матрица, на основе которой рисуем график
+            annot = True, # заголовки столбцов и строк(числа от 0 - 9)
+            fmt = 'd', # формат чисел (d - целые числа)
+            ax = graph, # рисуем график в области graph
+            cmap = 'Blues', # синяя цветовая схема (градиент от белого к темному(мало значений -> много значений))
+            xticklabels = range(10), # подписи по оси X
+            yticklabels = range(10) # подписи по оси Y
+            )     
+
+graph.set_title('Confusion Matrix', fontsize = 16, fontweight = 'bold')
+graph.set_xlabel('Predicted', fontsize = 12)
+graph.set_ylabel('True classes', fontsize = 12)
+
+plt.tight_layout()
+plt.savefig('3_Confusion_matrix.png', dpi = 150, bbox_inches = 'tight')
