@@ -204,3 +204,17 @@ print(classification_report(
 # Confusion Matrix
 conf_matrix  = confusion_matrix(true_target_classes, predicted_classes)
 print(f'\nConfusion Matrix:\n {conf_matrix}')
+
+# Подсчет ошибочных пар
+print(f'\nЧастые ошибки:')
+errors = []
+
+for i in range(10):
+    for j in range(10):
+        if i != j and conf_matrix[i, j] > 0 :
+            errors.append((i, j, conf_matrix[i, j]))
+
+errors.sort(key = lambda x: x[2], reverse = True)
+
+for true, pred, errors in errors[:10]:
+    print(f'{true} -> {pred}: {errors} раз')
