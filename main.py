@@ -373,3 +373,59 @@ for name, acc, params in model_comprasion:
 
 best_model = max(model_comprasion, key = lambda x: x[1])[0]
 print(f'\nЛучшая модель: {best_model}')
+
+# Визуализация сравнения 
+fig_3, axes = plt.subplots(1, 2, figsize = (15, 5))
+
+# график точности (accuracy)
+ax = axes[0]
+names = [param[0] for param in model_comprasion]
+accs = [param[1] for param in model_comprasion]
+colors = ['skyblue', 'lightgreen', 'lightcoral']
+
+bars = ax.bar(range(3),  accs, color = colors, edgecolor = 'black', linewidth = 2)
+ax.set_xticks(range(3))
+ax.set_xticklabels(names, rotation = 15, ha = 'right')
+ax.set_ylabel('Test accuracy')
+ax.set_title('Model comparsion', fontweight = 'bold')
+ax.set_ylim([0.9, 1]) #  ограничения значений по оси Y
+ax.grid(axis = 'y', alpha = 0.3)
+
+for bar, acc in zip(bars, accs):
+    height = bar.get_height()
+    ax.text(
+        bar.get_x() + bar.get_width() / 2.,  # Координата X текста
+        height + 0.001, # координата y текста
+        f'{acc:.4f}', # текст для отображения
+        ha = 'center', # горизонтальное выравнивание
+        va = 'bottom',  # вертикальное выравнивание
+        fontweight = 'bold' # толщина шрифта
+                )
+
+# Параметры и точность
+ax = axes[1]
+param_list = [param[2] for param in model_comprasion ] 
+ax.scatter( # Точечный график
+    param_list, # координата  x  для точки
+    accs, # координата y для точки
+    s = 200, # размер точки
+    c = colors, # цвет точки
+    edgecolor = 'black', # цвет обводки
+    linewidth = 2 # толщина линии
+)
+
+for i, name in enumerate(names):
+    ax.annotate(  # подпись к точкам
+        name, # текст подписи
+        (param_list[i], accs[i]), # координаты отображения подписи (по координатам точки)
+        xytext = (5, 5), # смещение отрисовки подписи (x, y)
+        textcoords = 'offset points' # смещение считается по пикселям
+    )
+
+ax.set_ylabel('Test accuracy')    
+ax.set_xlabel('Parameters')
+ax.set_title('Accuracy x Parameters', fontweight = 'bold')
+ax.grid(True, alpha = 0.3)
+
+plt.tight_layout()
+plt.savefig('6_model_comprasion.png', dpi = 150, bbox_inches = 'tight')    
