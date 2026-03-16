@@ -4,7 +4,7 @@ from keras.datasets import mnist
 from keras.utils import to_categorical
 
 from keras.models import Sequential
-from keras.layers import Dense, Dropout
+from keras.layers import Dense, Dropout, BatchNormalization, Activation
 from keras.callbacks import EarlyStopping
 
 from sklearn.metrics import classification_report, confusion_matrix
@@ -323,3 +323,38 @@ model_v2_learn = model_v2.fit(
 
 test_acc_v2 = model_v2.evaluate(data_test_flat, target_test_cat, verbose = 0)[1]
 print(f'Test accuracy: {test_acc_v2:.2f}')
+
+# Модель 3 - с нормализацией
+model_v3 = Sequential([
+    Dense(512, input_shape = (784, )),
+    BatchNormalization(),
+    Activation('relu'),
+    Dropout(0.3),
+    Dense(256),
+    BatchNormalization(),
+    Activation('relu'),
+    Dropout(0.2),
+    Dense(10, activation = 'softmax')
+])
+
+model_v3.compile(
+    optimizer = 'adam',
+    loss = 'categorical_crossentropy', 
+    metrics = ['accuracy']
+)
+
+print(f'\nМодель v3 (более глубокая)')
+model_v3.summary()
+
+model_v3_learn = model_v3.fit(
+    data_train_flat, target_train_cat,
+    epochs = 20,
+    batch_size = 128,
+    validation_split = 0.1,
+    callbacks = [early_stop],
+    verbose = 1,
+
+)
+
+test_acc_v3 = model_v3.evaluate(data_test_flat, target_test_cat, verbose = 0)[1]
+print(f'Test accuracy: {test_acc_v3:.2f}')
