@@ -367,7 +367,7 @@ model_comprasion = [
     ('Модель v3 (с BatchNorm)', test_acc_v3, model_v3.count_params())
 ]
 
-print(f'\n{'Модель':<30} {'Test accuracy':<15} {'Кол-во параметров':<15}')
+print(f"\n{'Модель':<30} {'Test accuracy':<15} {'Кол-во параметров':<15}")
 for name, acc, params in model_comprasion:
     print(f'{name:<30} {acc:.2f} ({acc * 100:.2f}%) {params:>15,}')
 
